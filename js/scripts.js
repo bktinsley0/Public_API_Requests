@@ -1,5 +1,7 @@
 // fetching data from '"https://randomuser.me/api/?results=12&nat=us"' and displaying it on the page
 // https://dimitripavlutin.com/javascript-fetch-async-await/
+
+const galleryDisplay = document.getElementById("gallery");
 async function fetchData() {
   const response = await fetch("https://randomuser.me/api/?results=12&nat=us");
   const data = await response.json();
@@ -14,7 +16,6 @@ fetchData()
     console.log(error);
   });
 
-const galleryDisplay = document.getElementById("gallery");
 // function to display the fetched data on the page
 function displayEmployees(data) {
   const cards = data.map(
@@ -75,12 +76,11 @@ function displayModal(data) {
   galleryDisplay.insertAdjacentHTML("afterend", modal);
 }
 
-// function to open the modal window when a card is clicked
-const cards = document.querySelectorAll(".card");
-// event listener to open the modal window
-
-for (let i = 0; i < cards.length; i++) {
-  cards[i].addEventListener("click", (e) => {
+// adding event listener to the galleryDisplay
+// https://stackoverflow.com/questions/14258787/javascript-click-event-listener-on-class
+galleryDisplay.addEventListener("click", (e) => {
+  console.log(e.target.className);
+  if (e.target.className === "card") {
     console.log("clicked");
-  });
-}
+  }
+});
