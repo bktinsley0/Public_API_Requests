@@ -1,15 +1,14 @@
-// fetching data from 'https://randomuser.me/api/' and displaying it on the page
-
-// async function getEmployees(url) {
-//   const response = await fetch(url);
-//   const data = await response.json();
-//   const employees = data.results;
-//   return employees;
-// }
-fetch("https://randomuser.me/api/?results=12&nat=us")
-  .then((response) => response.json())
-  .then((data) => displayEmployees(data.results))
-  .catch((error) => console.log(error));
+// fetching data from '"https://randomuser.me/api/?results=12&nat=us"' and displaying it on the page
+const fetchData = async()=> {
+    try {
+        const response = await fetch("https://randomuser.me/api/?results=12&nat=us");
+        const data = await response.json();
+        return data.results;
+    } catch (error) {
+        console.log(error);
+    }
+}
+fetchData();
 
 const galleryDisplay = document.getElementById("gallery");
 // function to display the fetched data on the page
@@ -31,39 +30,42 @@ function displayEmployees(data) {
   );
   galleryDisplay.insertAdjacentHTML("beforeend", cards);
 }
-
-
+displayEmployees(data);
 // function to display the modal window when a card is clicked
-// function displayModal(data, i) {
+// function displayModal(data) {
 //   const employees = data;
+//   // helper function to get the birthday
 //   let birthday = new Date(employees.dob.date)
 //     .toLocaleDateString("en-US")
 //     .split("/"); //splitting the date to get the month, day and year
 
-//   const modal = `
+//   const modal = employees.map(
+//     (employee) => `
 //    <div class="modal-container">
 //    <div class="modal">
 //    <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
 //    <div class="modal-info-container">
 //        <img class="modal-img" src="${
-//          employees.picture.thumbnail
+//          employee.picture.thumbnail
 //        }" alt="profile picture">
-//        <h3 id="name" class="modal-name cap">${employees.name.first} ${
-//     employees.name.last
-//   }</h3>
-//        <p class="modal-text">${employees.email}</p>
-//        <p class="modal-text cap">${employees.location.city}</p>
+//        <h3 id="name" class="modal-name cap">${employee.name.first} ${
+//       employee.name.last
+//     }</h3>
+//        <p class="modal-text">${employee.email}</p>
+//        <p class="modal-text cap">${employee.location.city}</p>
 //        <hr>
-//        <p class="modal-text">${data.cell}</p>
-//        <p class="modal-text">${data.location.street.number} ${
-//     data.location.street.name
-//   },${data.location.city} ${data.location.state} ${data.location.postcode}</p>
+//        <p class="modal-text">${employee.cell}</p>
+//        <p class="modal-text">${employee.location.street.number} ${
+//       employee.location.street.name
+//     },${employee.location.city} ${employee.location.state} ${
+//       employee.location.postcode
+//     }</p>
 //        <p class="modal-text">Birthday:  ${
 //          birthday[0] + "/" + birthday[1] + "/" + birthday[2]
 //        }</p>
 //    </div>
 //     </div>
-//     `;
+//     `
+//   );
 //   galleryDisplay.insertAdjacentHTML("afterend", modal);
-
 // }
