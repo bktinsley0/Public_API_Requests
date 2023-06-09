@@ -74,3 +74,13 @@ function displayModal(data) {
   );
   galleryDisplay.insertAdjacentHTML("afterend", modal);
 }
+
+// function to open the modal window when a card is clicked
+const cards = document.querySelectorAll(".card");
+// event listener to open the modal window
+
+for (let i = 0; i < cards.length; i++) {
+  cards[i].addEventListener("click", (e) => {
+    console.log("clicked");
+  });
+}
