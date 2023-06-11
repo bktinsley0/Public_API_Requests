@@ -2,6 +2,8 @@
 // https://dimitripavlutin.com/javascript-fetch-async-await/
 
 const galleryDisplay = document.getElementById("gallery");
+const body = document.querySelector("body");
+
 async function fetchData() {
   const response = await fetch("https://randomuser.me/api/?results=12&nat=us");
   const data = await response.json();
@@ -39,48 +41,39 @@ function displayEmployees(data) {
 // function to display the modal window when a card is clicked
 function displayModal(data) {
   const employees = data;
+  // Helper Functions for bithday and cell number
 
-  // helper function to get the birthday
-  let birthday = new Date(employees.dob.date)
-    .toLocaleDateString("en-US")
-    .split("/"); //splitting the date to get the month, day and year
+  const employee = `
+ <div class='modal-container'>
+ <div class="modal">
+ <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+ <div class="modal-info-container">
+     <img class="modal-img" src="${employees.picture.thumbnail}" alt="profile picture">
+     <h3 id="name" class="modal-name cap">${employees.name.first} ${employees.name.last}</h3>
+     <p class="modal-text">${employees.email}</p>
+     <p class="modal-text cap">${employees.location.city}</p>
+     <hr>
+     <p class="modal-text">${employees.cell}</p>
+     <p class="modal-text">${employees.location.street.number} ${employees.location.street.name},${employees.location.city} ${employees.location.state} ${employees.location.postcode}</p>
 
-  const modal = employees.map(
-    (employee) => `
-   <div class="modal-container">
-   <div class="modal">
-   <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
-   <div class="modal-info-container">
-       <img class="modal-img" src="${
-         employee.picture.thumbnail
-       }" alt="profile picture">
-       <h3 id="name" class="modal-name cap">${employee.name.first} ${
-      employee.name.last
-    }</h3>
-       <p class="modal-text">${employee.email}</p>
-       <p class="modal-text cap">${employee.location.city}</p>
-       <hr>
-       <p class="modal-text">${employee.cell}</p>
-       <p class="modal-text">${employee.location.street.number} ${
-      employee.location.street.name
-    },${employee.location.city} ${employee.location.state} ${
-      employee.location.postcode
-    }</p>
-       <p class="modal-text">Birthday:  ${
-         birthday[0] + "/" + birthday[1] + "/" + birthday[2]
-       }</p>
-   </div>
-    </div>
-    `
-  );
-  galleryDisplay.insertAdjacentHTML("afterend", modal);
+ </div>
+ </div>
+    `;
+  body.insertAdjacentHTML("afterbegin", employee);
 }
 
 // adding event listener to the galleryDisplay
 // https://stackoverflow.com/questions/14258787/javascript-click-event-listener-on-class
 galleryDisplay.addEventListener("click", (e) => {
-  console.log(e.target.className);
-  if (e.target.className === "card") {
-    console.log("clicked");
+  if (e.target.closest(".card") !== null) {
+    const card = e.target.closest(".card");
+    const index = [...card.parentNode.children].indexOf(card);
+  }})
+  
+body.addEventListener("click", (e) => {
+  if (e.target.className === ".modal-close-btn") {
+    console.log(e.target.className);
+    const modal = document.querySelector(".modal-container");
+    modal.classList.add("hidden");
   }
 });
