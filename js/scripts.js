@@ -33,6 +33,7 @@ function displayEmployees(data) {
               <h3 id="name" class="card-name cap">${employee.name.first} ${employee.name.last}</h3>
               <p class="card-text">${employee.email}</p>
               <p class="card-text cap">${employee.location.city}, ${employee.location.state}</p>
+              
           </div>
       </div>
           `
@@ -44,20 +45,32 @@ function displayEmployees(data) {
 function displayModal(data) {
   const employees = data;
 
-  // Helper Functions for bithday and cell number
-
+  // Helper Functions for bithday
+  function birthday() {
+    const date = new Date(employees.dob.date);
+    return `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`;
+  }
   const employee = `
  <div class='modal-container'>
  <div class="modal">
  <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
  <div class="modal-info-container">
-     <img class="modal-img" src="${employees.picture.thumbnail}" alt="profile picture">
-     <h3 id="name" class="modal-name cap">${employees.name.first} ${employees.name.last}</h3>
+     <img class="modal-img" src="${
+       employees.picture.thumbnail
+     }" alt="profile picture">
+     <h3 id="name" class="modal-name cap">${employees.name.first} ${
+    employees.name.last
+  }</h3>
      <p class="modal-text">${employees.email}</p>
      <p class="modal-text cap">${employees.location.city}</p>
      <hr>
      <p class="modal-text">${employees.cell}</p>
-     <p class="modal-text">${employees.location.street.number} ${employees.location.street.name},${employees.location.city} ${employees.location.state} ${employees.location.postcode}</p>
+     <p class="modal-text">${employees.location.street.number} ${
+    employees.location.street.name
+  },${employees.location.city} ${employees.location.state} ${
+    employees.location.postcode
+  }</p>
+     <p class="modal-text">Birthday: ${birthday()}</p>
 
  </div>
  </div>
