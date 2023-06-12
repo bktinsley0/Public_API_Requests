@@ -1,21 +1,23 @@
 // fetching data from '"https://randomuser.me/api/?results=12&nat=us"' and displaying it on the page
-// https://dimitripavlutin.com/javascript-fetch-async-await/
+// https://dmitripavlutin.com/javascript-fetch-async-await/, https://medium.com/@hayavuk/global-async-cache-44bc282cb7df
 
 const galleryDisplay = document.getElementById("gallery");
 const body = document.querySelector("body");
 
-async function fetchData() {
-  const response = await fetch("https://randomuser.me/api/?results=12&nat=us");
-  const data = await response.json();
-  return data;
-}
+let data;
+const fetchData = async () => {
+  if (data) return data;
+  return (data = await fetch("https://randomuser.me/api/?results=12&nat=us")
+    .then((res) => res.json())
+    .then((data) => data.results));
+};
 
 fetchData()
   .then((data) => {
-    displayEmployees(data.results);
+    displayEmployees(data);
   })
-  .catch((error) => {
-    console.log(error);
+  .catch((err) => {
+    console.log(err);
   });
 
 // function to display the fetched data on the page
@@ -41,6 +43,7 @@ function displayEmployees(data) {
 // function to display the modal window when a card is clicked
 function displayModal(data) {
   const employees = data;
+
   // Helper Functions for bithday and cell number
 
   const employee = `
@@ -68,12 +71,21 @@ galleryDisplay.addEventListener("click", (e) => {
   if (e.target.closest(".card") !== null) {
     const card = e.target.closest(".card");
     const index = [...card.parentNode.children].indexOf(card);
-  }})
-  
+    data.map((employee) => {
+      if (data.indexOf(employee) === index) {
+        displayModal(employee);
+      }
+    });
+  }
+});
+
+// function to close the modal window
+//  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from
+let modalContainer = document.querySelector(".modal-container");
 body.addEventListener("click", (e) => {
-  if (e.target.className === ".modal-close-btn") {
-    console.log(e.target.className);
-    const modal = document.querySelector(".modal-container");
-    modal.classList.add("hidden");
+  let btnRemove = Array.from(e.target.classList).includes("modal-close-btn");
+  if (btnRemove) {
+    console.log("clicked");
+    body.removeChild(Array.from(modalContainer));
   }
 });
