@@ -20,7 +20,6 @@ fetchData()
     console.log(err);
   });
 // Seach bar
-// https://www.w3schools.com/howto/howto_js_filter_lists.asp
 
 const searchContainer = document.querySelector(".search-container");
 const serachForm = ` <form action="#" method="get">
