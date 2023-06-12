@@ -81,11 +81,12 @@ galleryDisplay.addEventListener("click", (e) => {
 
 // function to close the modal window
 //  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from
-let modalContainer = document.querySelector(".modal-container");
+
 body.addEventListener("click", (e) => {
+  let modal = document.querySelector(".modal-container");
   let btnRemove = Array.from(e.target.classList).includes("modal-close-btn");
   if (btnRemove) {
     console.log("clicked");
-    body.removeChild(Array.from(modalContainer));
+    modal.parentNode.removeChild(modal);
   }
 });
