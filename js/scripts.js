@@ -19,6 +19,29 @@ fetchData()
   .catch((err) => {
     console.log(err);
   });
+// Seach bar
+// https://www.w3schools.com/howto/howto_js_filter_lists.asp
+
+const searchContainer = document.querySelector(".search-container");
+const serachForm = ` <form action="#" method="get">
+<input type="search" id="search-input" class="search-input" placeholder="Search...">
+<input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
+</form>`;
+
+searchContainer.insertAdjacentHTML("afterbegin", serachForm);
+const searchInput = document.getElementById("search-input");
+searchInput.addEventListener("keyup", (e) => {
+  const search = e.target.value.toLowerCase();
+  const cards = document.querySelectorAll(".card");
+  cards.forEach((card) => {
+    const name = card.querySelector("#name").textContent.toLowerCase();
+    if (name.includes(search)) {
+      card.style.display = "flex";
+    } else {
+      card.style.display = "none";
+    }
+  });
+});
 
 // function to display the fetched data on the page
 function displayEmployees(data) {
